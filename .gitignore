@@ -50,3 +50,5 @@ crashlytics-build.properties
 # Addition
 *.meta
 Assets/Plugins/
+Packages/
+ProjectSettings/
