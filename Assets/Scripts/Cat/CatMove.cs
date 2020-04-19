@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveCat : MonoBehaviour {
+public class CatMove : MonoBehaviour {
     public Material dst, src;
     public GenGrid genGrid;
 

@@ -13,8 +13,14 @@ public class GenGrid : MonoBehaviour {
 
     [ContextMenu("InitFloor")]
     private void InitFloor() {
-        StartCoroutine(DoInitFloor());
-        //StartCoroutine(smoothMoveUp());
+        var floorHolder = new GameObject("FloorHolder").transform;
+        floorHolder.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        for(var x = 0; x < gridSize.x; ++x)
+            for(var z = 0; z < gridSize.y; ++z) {
+                var floor = Instantiate(floorPrefab, floorHolder);
+                floor.transform.localPosition = new Vector3(x, 0, z);
+                floors.Add(floor);
+            }
     }
 
     private void Start() {
@@ -25,17 +31,18 @@ public class GenGrid : MonoBehaviour {
 
     }
 
-    private IEnumerator DoInitFloor() {
-        var floorHolder = new GameObject("FloorHolder").transform;
-        floorHolder.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-        for(var x = 0; x < gridSize.x; ++x)
-            for(var z = 0; z < gridSize.y; ++z) {
-                var floor = Instantiate(floorPrefab, floorHolder);
-                floor.transform.localPosition = new Vector3(x, 0, z);
-                floors.Add(floor);
-                yield return null;
-            }
-    }
+    // useless
+    //private IEnumerator DoInitFloor() {
+    //    var floorHolder = new GameObject("FloorHolder").transform;
+    //    floorHolder.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+    //    for(var x = 0; x < gridSize.x; ++x)
+    //        for(var z = 0; z < gridSize.y; ++z) {
+    //            var floor = Instantiate(floorPrefab, floorHolder);
+    //            floor.transform.localPosition = new Vector3(x, 0, z);
+    //            floors.Add(floor);
+    //            yield return null;
+    //        }
+    //}
 
     // too slow
     //private IEnumerator smoothMoveUp() {
