@@ -3,28 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CatMeow : MonoBehaviour {
-    public enum MeowState { Meow1, Meow2, Meow3, Meow4, };
+    public enum MeowState { NoMeow, MeowAttrackHuman, MeowAttrackEnemy, Meow3, Meow4, };
 
     private MeowState state;
     public MeowState State {
         get { return state; }
-
-        private set {
-            state = value;
-            Debug.Log("Cat meow state: " + state);
-        }
+        private set { state = value; Debug.Log("Cat meow state: " + state); }
     }
 
-    private void Start() {
+    //public void ResetMeowState() { State = MeowState.NoMeow; }
 
-    }
+    private CatHunger catHunger;
+    private GameState gameState;
 
-    private void Update() {
+    private void HandleMeow() {
         if(Input.GetKeyDown(KeyCode.Z)) {
-            State = MeowState.Meow1;
+            State = MeowState.MeowAttrackHuman;
         }
         else if(Input.GetKeyDown(KeyCode.X)) {
-            State = MeowState.Meow2;
+            State = MeowState.MeowAttrackEnemy;
         }
         else if(Input.GetKeyDown(KeyCode.C)) {
             State = MeowState.Meow3;
@@ -32,5 +29,24 @@ public class CatMeow : MonoBehaviour {
         else if(Input.GetKeyDown(KeyCode.V)) {
             State = MeowState.Meow4;
         }
+    }
+
+    private void Start() {
+        catHunger = GetComponent<CatHunger>();
+        gameState = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameState>();
+    }
+
+    private void Update() {
+        if(catHunger.HungerVal > 0) {
+            if(gameState.Turn == GameState.TurnOf.Cat) {
+                HandleMeow();
+                gameState.EndCatTurn();
+            }
+        }
+        else {
+            state = MeowState.NoMeow;
+            gameState.EndCatTurn();
+        }
+
     }
 }

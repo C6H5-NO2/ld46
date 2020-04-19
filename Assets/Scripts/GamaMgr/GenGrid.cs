@@ -6,6 +6,7 @@ public class GenGrid : MonoBehaviour {
     public GameObject floorPrefab;
     public Vector2Int gridSize = new Vector2Int(10, 10);
 
+    private GameObject floorHolder;
     private List<GameObject> floors = new List<GameObject>();
 
     public GameObject GetFloorAt(int x, int y) { return floors[x * gridSize.y + y]; }
@@ -13,14 +14,27 @@ public class GenGrid : MonoBehaviour {
 
     [ContextMenu("InitFloor")]
     private void InitFloor() {
-        var floorHolder = new GameObject("FloorHolder").transform;
-        floorHolder.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        floors.Capacity = gridSize.x * gridSize.y;
+        floorHolder = new GameObject("FloorHolder");
+        floorHolder.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         for(var x = 0; x < gridSize.x; ++x)
             for(var z = 0; z < gridSize.y; ++z) {
-                var floor = Instantiate(floorPrefab, floorHolder);
+                // todo: update rand alg
+                if(Random.Range(0, 10) % 7 == 0) {
+                    floors.Add(null);
+                    continue;
+                }
+
+                var floor = Instantiate(floorPrefab, floorHolder.transform);
                 floor.transform.localPosition = new Vector3(x, 0, z);
                 floors.Add(floor);
             }
+    }
+
+    [ContextMenu("ClearAllFloors")]
+    private void ClearAllFloors() {
+        Destroy(floorHolder);
+        floors.Clear();
     }
 
     private void Start() {

@@ -122,9 +122,10 @@ GameObject:
   m_Component:
   - component: {fileID: 169416793}
   - component: {fileID: 169416792}
+  - component: {fileID: 169416794}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,8 +157,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &169416794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169416791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273fc6d5780c29c43815f61d5afe2a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &259848579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,6 +178,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1334850113, guid: 1809fb70fad37ae41b9ac795a1e98f20, type: 3}
+      propertyPath: genGrid
+      value: 
+      objectReference: {fileID: 169416792}
+    - target: {fileID: 1334850114, guid: 1809fb70fad37ae41b9ac795a1e98f20, type: 3}
+      propertyPath: catHungerText
+      value: 
+      objectReference: {fileID: 353404035}
     - target: {fileID: 1870021729345375564, guid: 1809fb70fad37ae41b9ac795a1e98f20,
         type: 3}
       propertyPath: m_Name
@@ -208,7 +229,7 @@ PrefabInstance:
     - target: {fileID: 7314050492420095817, guid: 1809fb70fad37ae41b9ac795a1e98f20,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7314050492420095817, guid: 1809fb70fad37ae41b9ac795a1e98f20,
         type: 3}
@@ -282,8 +303,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 21
@@ -399,7 +418,7 @@ RectTransform:
   - {fileID: 353404034}
   - {fileID: 1710612910}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -470,7 +489,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &945623316
 GameObject:
@@ -623,52 +642,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 41.7, y: -23.46, z: 0}
---- !u!1 &1334850112 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1870021729345375564, guid: 1809fb70fad37ae41b9ac795a1e98f20,
-    type: 3}
-  m_PrefabInstance: {fileID: 259848579}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1334850113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334850112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fee25646098b0840a3bfabeabfcdd51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dst: {fileID: 2100000, guid: 36925c0abc87703499afbd931e1d0b44, type: 2}
-  src: {fileID: 2100000, guid: 36925c0abc87703499afbd931e1d0b44, type: 2}
-  genGrid: {fileID: 169416792}
---- !u!114 &1334850114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334850112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f929cc996f2be314096297acc98dd8ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  catHungerText: {fileID: 353404035}
---- !u!114 &1334850115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334850112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bb40258334b998439302c70f2702266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1489605488
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -719,7 +692,7 @@ PrefabInstance:
     - target: {fileID: 6482318265324380509, guid: 8a9883bc6713b114988b1140051af4a5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6482318265324380509, guid: 8a9883bc6713b114988b1140051af4a5,
         type: 3}
@@ -793,8 +766,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 21

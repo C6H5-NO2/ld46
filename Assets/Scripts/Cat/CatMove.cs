@@ -3,36 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CatMove : MonoBehaviour {
-    public Material dst, src;
     public GenGrid genGrid;
 
-    private void Start() {
+    private CatHunger catHunger;
+    private CatMeow catMeow;
+    private GameState gameState;
 
+    private void Start() {
+        catHunger = GetComponent<CatHunger>();
+        catMeow = GetComponent<CatMeow>();
+        gameState = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameState>();
     }
 
-    private void Update() {
-        if(Input.GetMouseButtonDown(0)) {
-            var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+    private void HandleMove() {
+        if(!Input.GetMouseButtonDown(0))
+            return;
 
-            if(Physics.Raycast(cameraRay, out RaycastHit hitInfo, 100, LayerMask.GetMask("Floor"))) {
-                var pos = new Vector3Int((int)hitInfo.point.x, 0, (int)hitInfo.point.z);
-                Debug.Log(hitInfo.point + " " + pos);
+        var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                transform.position = pos;
-                // testcode
-                // todo: a toggled floor can not be toggled again
-                StartCoroutine(ToggleFloorTile(genGrid.GetFloorAt(pos.x, pos.z).GetComponentInChildren<Renderer>()));
-            }
-            else {
-                Debug.Log("no hit");
-            }
+        if(Physics.Raycast(cameraRay, out RaycastHit hitInfo, 100, LayerMask.GetMask("Floor"))) {
+            var pos = new Vector3Int((int)hitInfo.point.x, 0, (int)hitInfo.point.z);
+            Debug.Log(hitInfo.point + " " + pos);
+
+            // todo: move with anim
+            transform.position = pos;
+
+            catHunger.DoMove();
+        }
+        else {
+            Debug.Log("no hit");
         }
     }
 
-    private IEnumerator ToggleFloorTile(Renderer floorRenderer) {
-        var srcMat = floorRenderer.material;
-        floorRenderer.material = dst;
-        yield return new WaitForSeconds(1);
-        floorRenderer.material = srcMat;
+    private void Update() {
+        if(catHunger.HungerVal > 0 && gameState.Turn == GameState.TurnOf.Cat)
+            HandleMove();
     }
 }

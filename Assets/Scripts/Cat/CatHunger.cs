@@ -9,20 +9,28 @@ public class CatHunger : MonoBehaviour {
     public const int fishVal = 2;
 
     private int hunger;
-    public int Hunger {
+    public int HungerVal {
         get { return hunger; }
-        set {
+        private set {
             hunger = value;
             catHungerText.text = "Cat Hunger: " + hunger;
         }
     }
 
     // reset when entering new level
-    public void ResetHunger(int h) { Hunger = h; }
+    public void ResetHunger(int h) { HungerVal = h; }
 
-    public void ReciveFish() { Hunger += fishVal; }
+    public void ReciveFish() {
+        HungerVal += fishVal;
+        // todo: play sound (?)
+    }
 
-    public void TakeDmg() { --Hunger; }
+    public void TakeDmg() {
+        --HungerVal;
+        // todo: play sound
+    }
+
+    public void DoMove() { --HungerVal; }
 
     void Start() {
         ResetHunger(10);
