@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - GameManager
+  - Cat
+  - Human
+  - Enemy
   layers:
   - Default
   - TransparentFX

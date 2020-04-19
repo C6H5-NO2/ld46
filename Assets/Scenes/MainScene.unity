@@ -144,7 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorPrefab: {fileID: 4863798826705952923, guid: b5529b70fcaecaa47a160e1ad0bfbac4,
     type: 3}
-  gridSize: {x: 10, y: 10}
 --- !u!4 &169416793
 Transform:
   m_ObjectHideFlags: 0
@@ -649,6 +648,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1594895730, guid: 8a9883bc6713b114988b1140051af4a5, type: 3}
+      propertyPath: humanHealthText
+      value: 
+      objectReference: {fileID: 1710612911}
     - target: {fileID: 2515437742463676900, guid: 8a9883bc6713b114988b1140051af4a5,
         type: 3}
       propertyPath: m_Name
@@ -723,7 +726,7 @@ GameObject:
   - component: {fileID: 1710612912}
   - component: {fileID: 1710612911}
   m_Layer: 5
-  m_Name: PlayerHealthText
+  m_Name: HumanHealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

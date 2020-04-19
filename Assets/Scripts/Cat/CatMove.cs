@@ -36,7 +36,7 @@ public class CatMove : MonoBehaviour {
     }
 
     private void Update() {
-        if(catHunger.HungerVal > 0 && gameState.Turn == GameState.TurnOf.Cat)
+        if(catHunger.Health > 0 && gameState.Turn == GameState.TurnOf.Cat)
             HandleMove();
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CatMeow : MonoBehaviour {
-    public enum MeowState { NoMeow, MeowAttrackHuman, MeowAttrackEnemy, Meow3, Meow4, };
+    public enum MeowState { NoMeow, MeowAttrackHuman, MeowAttrackEnemy, Meow3, Meow4, PassOut, };
 
     private MeowState state;
     public MeowState State {
@@ -34,19 +34,19 @@ public class CatMeow : MonoBehaviour {
     private void Start() {
         catHunger = GetComponent<CatHunger>();
         gameState = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameState>();
+        State = MeowState.NoMeow;
     }
 
     private void Update() {
-        if(catHunger.HungerVal > 0) {
+        if(catHunger.Health > 0) {
             if(gameState.Turn == GameState.TurnOf.Cat) {
                 HandleMeow();
                 gameState.EndCatTurn();
             }
         }
         else {
-            state = MeowState.NoMeow;
+            State = MeowState.PassOut;
             gameState.EndCatTurn();
         }
-
     }
 }

@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class GenGrid : MonoBehaviour {
     public GameObject floorPrefab;
-    public Vector2Int gridSize = new Vector2Int(10, 10);
+    public const int gridSizeX = 10, gridSizeY = 10;
 
     private GameObject floorHolder;
     private List<GameObject> floors = new List<GameObject>();
+    //private int[,] minDis = new int[gridSizeX * gridSizeY, gridSizeX * gridSizeY];
 
-    public GameObject GetFloorAt(int x, int y) { return floors[x * gridSize.y + y]; }
+    public bool IsInGrid(int x, int y) { return x >= 0 && x < gridSizeX && y >= 0 && y < gridSizeY; }
+    public int GetFloorInternalIdx(int x, int y) { return x * gridSizeY + y; }
+    public GameObject GetFloorAt(int x, int y) { return IsInGrid(x, y) ? floors[GetFloorInternalIdx(x, y)] : null; }
     public GameObject GetFloorAt(Vector2Int pos) { return GetFloorAt(pos.x, pos.y); }
 
     [ContextMenu("InitFloor")]
     private void InitFloor() {
-        floors.Capacity = gridSize.x * gridSize.y;
+        floors.Capacity = gridSizeX * gridSizeY;
         floorHolder = new GameObject("FloorHolder");
         floorHolder.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-        for(var x = 0; x < gridSize.x; ++x)
-            for(var z = 0; z < gridSize.y; ++z) {
+        for(var x = 0; x < gridSizeX; ++x)
+            for(var z = 0; z < gridSizeY; ++z) {
                 // todo: update rand alg
                 if(Random.Range(0, 10) % 7 == 0) {
                     floors.Add(null);
@@ -31,6 +34,19 @@ public class GenGrid : MonoBehaviour {
             }
     }
 
+    // O(n^3)
+    // too slow
+    //private void CalMinDis() {
+    //    for(var u = 0;u<minDis.Length;++u)
+    //    for(var v = 0; v < minDis.Length; ++v) {
+    //            if(u == v) {
+    //                minDis[u, v] = 0;
+    //                continue;
+    //            }
+    //            if()
+    //        }
+    //}
+
     [ContextMenu("ClearAllFloors")]
     private void ClearAllFloors() {
         Destroy(floorHolder);
@@ -39,6 +55,7 @@ public class GenGrid : MonoBehaviour {
 
     private void Start() {
         InitFloor();
+        //CalMinDis();
     }
 
     private void Update() {

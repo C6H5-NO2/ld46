@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// todo
 public class GameState : MonoBehaviour {
     public enum TurnOf { Cat, Human, Enemy, GameOver, EndGame, GameInit };
 
@@ -11,16 +10,26 @@ public class GameState : MonoBehaviour {
     public void EndCatTurn() {
         if(Turn != TurnOf.Cat)
             return;
-
-        // todo: start human turn
         Turn = TurnOf.Human;
+    }
 
-        // todo: start enemy turn
-        // this should be done by human
+    public void EndHumanTurn() {
+        if(Turn != TurnOf.Human)
+            return;
         Turn = TurnOf.Enemy;
+    }
 
-        // this should be done by Enemy
+    // this should be done by Enemy
+    public void EndEnemyTurn() {
+        if(Turn != TurnOf.Enemy)
+            return;
         Turn = TurnOf.Cat;
+    }
+
+    public void GameOver() {
+        Turn = TurnOf.GameOver;
+        Debug.Log("Game Over");
+        // todo
     }
 
     private void Start() {

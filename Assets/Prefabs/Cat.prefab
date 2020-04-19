@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1334850115}
   m_Layer: 0
   m_Name: Cat
-  m_TagString: Untagged
+  m_TagString: Cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,8 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fee25646098b0840a3bfabeabfcdd51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dst: {fileID: 2100000, guid: 36925c0abc87703499afbd931e1d0b44, type: 2}
-  src: {fileID: 2100000, guid: 36925c0abc87703499afbd931e1d0b44, type: 2}
   genGrid: {fileID: 0}
 --- !u!114 &1334850114
 MonoBehaviour:
