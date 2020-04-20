@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,7 +50,12 @@ public class HumanCtrl : MonoBehaviour, IHasHealth {
                     break;
             }
 
-            var nextGrid = FindPath.FindNextGrid(src, dst);
+            PathSearch search = new PathSearch();
+            search.start = src;
+            search.end = dst;
+            search.moveable = ~GenGrid.MapObj.Air;
+
+            var nextGrid = search.NextGrid();
             var nextPos = new Vector3(nextGrid.x, 0, nextGrid.y);
 
             // todo: move with anim 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Utils;
 
 public class EnemyMove : MonoBehaviour {
     private Transform catTrans, humanTrans;
@@ -26,7 +27,12 @@ public class EnemyMove : MonoBehaviour {
                 break;
         }
 
-        var nextGrid = FindPath.FindNextGrid(src, dst);
+        PathSearch search = new PathSearch();
+        search.start = src;
+        search.end = dst;
+        search.moveable = ~GenGrid.MapObj.Air;
+
+        var nextGrid = search.NextGrid();
         var nextPos = new Vector3(nextGrid.x, 0, nextGrid.y);
 
         // todo: move with anim 
