@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     public GameObject Human { get; private set; }
 
     private GameState gameState;
-    private GenGrid genGrid;
+    private GridManager gridManager;
 
     private int level = 0;
 
@@ -39,20 +39,11 @@ public class GameManager : MonoBehaviour {
         gameState.GameRestart();
         GameState.Instance = gameState;
 
-        genGrid = GetComponent<GenGrid>();
-        genGrid.InitFloor();
+        gridManager = GetComponent<GridManager>();
+        gridManager.InitFloor();
+        GridManager.Instance = gridManager;
 
         Cat = Instantiate(catPrefab, Vector3.zero, Quaternion.identity);
         Human = Instantiate(humanPrefab, Vector3.zero, Quaternion.identity);
-    }
-
-    private void Start() {
-
-    }
-
-    private void Update() {
-        // todo: testcode
-        if(Input.GetKeyDown(KeyCode.Space))
-            gameState.EndCatTurn();
     }
 }

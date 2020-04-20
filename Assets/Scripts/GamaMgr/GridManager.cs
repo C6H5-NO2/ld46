@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GenGrid : MonoBehaviour {
+public class GridManager : MonoBehaviour {
+    public static GridManager Instance = null; // only set this by GameManager
+
     public GameObject floorPrefab;
     public const int gridSizeX = 11, gridSizeY = 11; // Should be odd.
 
@@ -12,18 +14,19 @@ public class GenGrid : MonoBehaviour {
     private List<GameObject> floors = new List<GameObject>();
     //private int[,] minDis = new int[gridSizeX * gridSizeY, gridSizeX * gridSizeY];
 
-    public bool IsInGrid(int x, int y) { return x >= 0 && x < gridSizeX && y >= 0 && y < gridSizeY; }
-    public int GetFloorInternalIdx(int x, int y) { return x * gridSizeY + y; }
-    public GameObject GetFloorAt(int x, int y) { return IsInGrid(x, y) ? floors[GetFloorInternalIdx(x, y)] : null; }
-    public GameObject GetFloorAt(Vector2Int pos) { return GetFloorAt(pos.x, pos.y); }
+    //public bool IsInGrid(int x, int y) { return x >= 0 && x < gridSizeX && y >= 0 && y < gridSizeY; }
+    //public int GetFloorInternalIdx(int x, int y) { return x * gridSizeY + y; }
+    //public GameObject GetFloorAt(int x, int y) { return IsInGrid(x, y) ? floors[GetFloorInternalIdx(x, y)] : null; }
+    //public GameObject GetFloorAt(Vector2Int pos) { return GetFloorAt(pos.x, pos.y); }
 
     [Flags]
     public enum MapObj {
+        Null = 0x00,
         Air = 0x01,
         Floor = 0x02,
         Enemy = 0x04,
         Cat = 0x08,
-        StupidMan = 0x10,
+        Human = 0x10,
         Key = 0x11,
         Fish = 0x12
     }

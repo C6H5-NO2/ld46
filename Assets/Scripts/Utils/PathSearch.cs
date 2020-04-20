@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Scripts.Utils
-{
     class PathSearch
     {
-        public PathSearch()
+        public PathSearch(Vector3 src, Vector3 dst, GridManager.MapObj unmoveable = GridManager.MapObj.Air)
         {
-            map = GameManager.Instance.GetComponent<GenGrid>().map;
+            map = GridManager.Instance.map;
+            start = new Vector2Int((int)src.x, (int)src.z);
+            end = new Vector2Int((int)dst.x, (int)dst.z);
+            this.unmoveable = unmoveable;
         }
 
-        private GenGrid.MapObj[,] map;
-        public Vector2Int start;
-        public Vector2Int end;
-        public GenGrid.MapObj moveable;
+        private GridManager.MapObj[,] map;
+        private Vector2Int start;
+        private Vector2Int end;
+        private GridManager.MapObj unmoveable;
 
         private int CalcG(Point p)
         {
@@ -122,7 +123,7 @@ namespace Assets.Scripts.Utils
                         continue;
 
                     // Can not reach
-                    if (map[next.x, next.y] != GenGrid.MapObj.Floor)
+                    if ((map[next.x, next.y] & unmoveable) != GridManager.MapObj.Null)
                         continue;
 
                     // Ignore points in close list
@@ -194,4 +195,3 @@ namespace Assets.Scripts.Utils
             return start;
         }
     }
-}

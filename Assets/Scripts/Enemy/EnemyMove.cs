@@ -1,42 +1,38 @@
-﻿using UnityEngine;
-using System.Collections;
-using Assets.Scripts.Utils;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using MapObj = GridManager.MapObj;
 
-public class EnemyMove : MonoBehaviour {
+
+public class EnemyMove : Movable {
     private Transform catTrans, humanTrans;
-    
+
     private enum Target { None, Cat, Human, };
     private Target target;
 
     // todo
     public void DoMove() {
-        var src = new Vector2Int((int)transform.position.x, (int)transform.position.z);
-        Vector2Int dst;
+        Vector3 dst;
         switch(target) {
             case Target.Cat:
-                dst = new Vector2Int((int)catTrans.position.x, (int)catTrans.position.z);
+                dst = catTrans.position;
                 break;
 
             case Target.Human:
-                dst = new Vector2Int((int)humanTrans.position.x, (int)humanTrans.position.z);
+                dst = humanTrans.position;
                 break;
 
             case Target.None:
             default:
-                dst = new Vector2Int();
+                dst = transform.position;
                 break;
         }
 
-        PathSearch search = new PathSearch();
-        search.start = src;
-        search.end = dst;
-        search.moveable = ~GenGrid.MapObj.Air;
-
+        var search = new PathSearch(transform.position, dst, MapObj.Air | MapObj.Cat | MapObj.Human);
         var nextGrid = search.NextGrid();
         var nextPos = new Vector3(nextGrid.x, 0, nextGrid.y);
 
-        // todo: move with anim 
-        transform.position = nextPos;
+        StartCoroutine(SmoothMove(nextPos));
     }
 
     /* 
@@ -57,15 +53,35 @@ public class EnemyMove : MonoBehaviour {
     private void OnEnable() { CatMeow.OnMeowAttrackEnemy += SetTargetToCat; }
     private void OnDisable() { CatMeow.OnMeowAttrackEnemy -= SetTargetToCat; }
 
-    private void Start() {
+    private new void Start() {
+        base.Start();
+
         catTrans = GameObject.FindGameObjectWithTag("Cat").transform;
         humanTrans = GameObject.FindGameObjectWithTag("Human").transform;
         target = Target.Human;
+
+        Map[(int)transform.position.x, (int)transform.position.z] |= MapObj.Enemy;
     }
 
     private void Update() {
         if((catTrans.position - transform.position).sqrMagnitude > 8.1) {
             target = Target.Human; // todo
         }
+    }
+
+    private IEnumerator SmoothMove(Vector3 target) {
+        const float moveTime = .15f, inverseMoveTime = 1 / moveTime;
+        BusyMoving = true;
+        Map[(int)transform.position.x, (int)transform.position.z] &= ~MapObj.Enemy;
+
+        while((target - transform.position).sqrMagnitude > float.Epsilon) {
+            transform.position = Vector3.MoveTowards(transform.position, target, inverseMoveTime * Time.deltaTime);
+            yield return null;
+        }
+        transform.position = target;
+
+        Map[(int)transform.position.x, (int)transform.position.z] |= MapObj.Enemy;
+        BusyMoving = false;
+        GameState.Instance.EndHumanTurn();
     }
 }

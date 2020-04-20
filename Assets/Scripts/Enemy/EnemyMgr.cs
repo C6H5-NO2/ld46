@@ -13,7 +13,7 @@ public class EnemyMgr : MonoBehaviour {
     private Transform catTrans;
     private CatMeow catMeow;
 
-    private HumanCtrl humanCtrl;
+    private HumanHealth humanHealth;
 
     private void InitEnemies() {
         if(enemyMoves == null) {
@@ -30,7 +30,7 @@ public class EnemyMgr : MonoBehaviour {
         int enemyNum = Random.Range(1, 4);
         while(enemyNum-- != 0) {
             // shit code
-            var randPos = new Vector3(Random.Range(1, GenGrid.gridSizeX), 0, Random.Range(1, GenGrid.gridSizeY));
+            var randPos = new Vector3(Random.Range(1, GridManager.gridSizeX), 0, Random.Range(1, GridManager.gridSizeY));
             var enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
 
             var enemyMove = enemy.AddComponent<EnemyMove>();
@@ -43,7 +43,7 @@ public class EnemyMgr : MonoBehaviour {
         catTrans = GameObject.FindGameObjectWithTag("Cat").transform;
         catMeow = catTrans.GetComponent<CatMeow>();
 
-        humanCtrl = GameObject.FindGameObjectWithTag("Human").GetComponent<HumanCtrl>();
+        humanHealth = GameObject.FindGameObjectWithTag("Human").GetComponent<HumanHealth>();
 
         InitEnemies();
     }

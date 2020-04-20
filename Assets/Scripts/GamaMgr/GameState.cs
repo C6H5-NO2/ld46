@@ -31,6 +31,7 @@ public class GameState : MonoBehaviour {
         Turn = TurnOf.Cat;
     }
 
+    // Call if player fails
     public void GameOver() {
         Turn = TurnOf.GameOver;
         Debug.Log("Game Over");
