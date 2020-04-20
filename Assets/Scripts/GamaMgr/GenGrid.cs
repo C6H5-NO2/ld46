@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GenGrid : MonoBehaviour {
     public GameObject floorPrefab;
@@ -60,6 +62,8 @@ public class GenGrid : MonoBehaviour {
         // 1 -> Right
         // 2 -> Down
         // 3 -> Left
+        int maxDepth = Math.Max(gridSizeX, gridSizeY) / 2;
+        int depth = 0;
         while (stack.Count != 0) {
             Vector2Int curr = stack.Peek();
             Vector2Int next;
@@ -92,12 +96,15 @@ public class GenGrid : MonoBehaviour {
                     AddFloor(next.x, next.y);
                     AddFloor((next.x + curr.x) / 2, (next.y + curr.y) / 2);
 
+                    ++depth;
                     break;
                 }
             }
 
-            if (!found)
+            if (!found || depth >= maxDepth) {
+                depth = 0;
                 stack.Pop();
+            }
         }
     }
 
