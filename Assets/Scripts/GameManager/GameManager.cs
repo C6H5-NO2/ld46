@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour {
 
     public GameObject catPrefab, humanPrefab;
 
-    private GameObject cat, human;
     public GameObject Cat { get; private set; }
     public GameObject Human { get; private set; }
 

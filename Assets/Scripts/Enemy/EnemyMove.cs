@@ -28,7 +28,7 @@ public class EnemyMove : Movable {
                 break;
         }
 
-        var search = new PathSearch(transform.position, dst, MapObj.Air | MapObj.Cat | MapObj.Human);
+        var search = new PathSearch(transform.position, dst); //, MapObj.Air | MapObj.Cat | MapObj.Enemy | MapObj.Human);
         var nextGrid = search.NextGrid();
         var nextPos = new Vector3(nextGrid.x, 0, nextGrid.y);
 
@@ -56,8 +56,8 @@ public class EnemyMove : Movable {
     private new void Start() {
         base.Start();
 
-        catTrans = GameObject.FindGameObjectWithTag("Cat").transform;
-        humanTrans = GameObject.FindGameObjectWithTag("Human").transform;
+        catTrans = GameManager.Instance.Cat.transform;
+        humanTrans = GameManager.Instance.Human.transform;
         target = Target.Human;
 
         Map[(int)transform.position.x, (int)transform.position.z] |= MapObj.Enemy;

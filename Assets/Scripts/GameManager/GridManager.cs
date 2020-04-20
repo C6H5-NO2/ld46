@@ -11,13 +11,6 @@ public class GridManager : MonoBehaviour {
     public const int gridSizeX = 11, gridSizeY = 11; // Should be odd.
 
     private GameObject floorHolder;
-    private List<GameObject> floors = new List<GameObject>();
-    //private int[,] minDis = new int[gridSizeX * gridSizeY, gridSizeX * gridSizeY];
-
-    //public bool IsInGrid(int x, int y) { return x >= 0 && x < gridSizeX && y >= 0 && y < gridSizeY; }
-    //public int GetFloorInternalIdx(int x, int y) { return x * gridSizeY + y; }
-    //public GameObject GetFloorAt(int x, int y) { return IsInGrid(x, y) ? floors[GetFloorInternalIdx(x, y)] : null; }
-    //public GameObject GetFloorAt(Vector2Int pos) { return GetFloorAt(pos.x, pos.y); }
 
     [Flags]
     public enum MapObj {
@@ -36,7 +29,6 @@ public class GridManager : MonoBehaviour {
     private void AddFloor(int x, int y) {
         var floor = Instantiate(floorPrefab, floorHolder.transform);
         floor.transform.localPosition = new Vector3(x, 0, y);
-        floors.Add(floor);
     }
 
     private void GenMap(int[,] grid, int floorId) {
@@ -59,7 +51,6 @@ public class GridManager : MonoBehaviour {
 
     [ContextMenu("InitFloor")]
     public void InitFloor() {
-        floors.Capacity = gridSizeX * gridSizeY;
         floorHolder = new GameObject("FloorHolder");
         floorHolder.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 
@@ -139,7 +130,7 @@ public class GridManager : MonoBehaviour {
 
         // Randomly connect some floors
         float probability = 0.3f;
-        for (int i = 2; i < w - 2; ++i) {
+        for (int i = 1; i < w - 2; ++i) {
             for (int j = 1; j < h - 2; ++j) {
                 if (grid[i, j] == Wall && Random.value < probability) {
                     grid[i, j] = Floor;
@@ -153,16 +144,6 @@ public class GridManager : MonoBehaviour {
     [ContextMenu("ClearAllFloors")]
     private void ClearAllFloors() {
         Destroy(floorHolder);
-        floors.Clear();
-    }
-
-    private void Start() {
-        InitFloor();
-        //CalMinDis();
-    }
-
-    private void Update() {
-
     }
 
     // useless

@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class EnemyMgr : MonoBehaviour {
-    //public static EnemyMgr Instance; // only set in GameManager
-
+public class EnemyManager : MonoBehaviour {
     public GameObject enemyPrefab;
 
     [HideInInspector] public List<EnemyMove> enemyMoves;
-
-    //[HideInInspector] public GameObject cat, human; // only set in GameManager
 
     private Transform catTrans;
     private CatMeow catMeow;
@@ -28,22 +24,29 @@ public class EnemyMgr : MonoBehaviour {
         // todo: upd alg
         // load rand enemies
         int enemyNum = Random.Range(1, 4);
-        while(enemyNum-- != 0) {
-            // shit code
-            var randPos = new Vector3(Random.Range(1, GridManager.gridSizeX), 0, Random.Range(1, GridManager.gridSizeY));
+        while(enemyMoves.Count < enemyNum) {
+            var randGrid = new Vector2Int(Random.Range(1, GridManager.gridSizeX),
+                                          Random.Range(1, GridManager.gridSizeY));
+            if(GridManager.Instance.map[randGrid.x, randGrid.y] != GridManager.MapObj.Floor)
+                continue;
+
+            var randPos = new Vector3(randGrid.x, 0, randGrid.y);
+
             var enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
 
             var enemyMove = enemy.AddComponent<EnemyMove>();
+            enemy.AddComponent<EnemyHealth>();
+            enemy.AddComponent<EnemyAttack>();
 
             enemyMoves.Add(enemyMove);
         }
     }
 
     private void Start() {
-        catTrans = GameObject.FindGameObjectWithTag("Cat").transform;
+        catTrans = GameManager.Instance.Cat.transform;
         catMeow = catTrans.GetComponent<CatMeow>();
 
-        humanHealth = GameObject.FindGameObjectWithTag("Human").GetComponent<HumanHealth>();
+        humanHealth = GameManager.Instance.Human.GetComponent<HumanHealth>();
 
         InitEnemies();
     }
@@ -52,6 +55,14 @@ public class EnemyMgr : MonoBehaviour {
         if(GameState.Instance.Turn == GameState.TurnOf.Enemy) {
             foreach(var enemyMov in enemyMoves)
                 enemyMov.DoMove(); // todo
+            while(true) {
+                bool quit = true;
+                foreach(var enemyMov in enemyMoves)
+                    if(enemyMov.BusyMoving)
+                        quit = false;
+                if(quit)
+                    break;
+            }
             GameState.Instance.EndEnemyTurn();
         }
     }
