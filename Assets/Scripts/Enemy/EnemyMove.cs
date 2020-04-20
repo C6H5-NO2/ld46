@@ -1,10 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MapObj = GridManager.MapObj;
 
 
 public class EnemyMove : Movable {
+    [HideInInspector] public EnemyManager enemyManager;
+
     private Transform catTrans, humanTrans;
 
     private enum Target { None, Cat, Human, };
@@ -82,6 +84,7 @@ public class EnemyMove : Movable {
 
         Map[(int)transform.position.x, (int)transform.position.z] |= MapObj.Enemy;
         BusyMoving = false;
-        GameState.Instance.EndHumanTurn();
+
+        --enemyManager.enemiesToMove;
     }
 }

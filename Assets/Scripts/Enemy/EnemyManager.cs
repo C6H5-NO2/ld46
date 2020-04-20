@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyManager : MonoBehaviour {
     public GameObject enemyPrefab;
 
     [HideInInspector] public List<EnemyMove> enemyMoves;
+    [HideInInspector] public int enemiesToMove;
 
     private Transform catTrans;
     private CatMeow catMeow;
@@ -34,9 +36,11 @@ public class EnemyManager : MonoBehaviour {
 
             var enemy = Instantiate(enemyPrefab, randPos, Quaternion.identity);
 
-            var enemyMove = enemy.AddComponent<EnemyMove>();
             enemy.AddComponent<EnemyHealth>();
             enemy.AddComponent<EnemyAttack>();
+
+            var enemyMove = enemy.AddComponent<EnemyMove>();
+            enemyMove.enemyManager = this;
 
             enemyMoves.Add(enemyMove);
         }
@@ -49,21 +53,21 @@ public class EnemyManager : MonoBehaviour {
         humanHealth = GameManager.Instance.Human.GetComponent<HumanHealth>();
 
         InitEnemies();
+        enemiesToMove = 0;
     }
 
     private void Update() {
         if(GameState.Instance.Turn == GameState.TurnOf.Enemy) {
-            foreach(var enemyMov in enemyMoves)
-                enemyMov.DoMove(); // todo
-            while(true) {
-                bool quit = true;
-                foreach(var enemyMov in enemyMoves)
-                    if(enemyMov.BusyMoving)
-                        quit = false;
-                if(quit)
-                    break;
-            }
-            GameState.Instance.EndEnemyTurn();
+            enemiesToMove = enemyMoves.Count;
+            foreach(var enemy in enemyMoves)
+                enemy.DoMove(); // todo
+            StartCoroutine(CheckMove());
         }
+    }
+
+    private IEnumerator CheckMove() {
+        while(enemiesToMove > 0)
+            yield return null;
+        GameState.Instance.EndEnemyTurn();
     }
 }
