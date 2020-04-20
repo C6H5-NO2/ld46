@@ -23,7 +23,7 @@ public class HumanCtrl : MonoBehaviour, IHasHealth {
 
     void Start() {
         humanHealthText = GameObject.Find("HumanHealthText").GetComponent<Text>();
-        health = 10;
+        Health = 10;
 
         var cat = GameObject.FindGameObjectWithTag("Cat");
         catTrans = cat.transform;

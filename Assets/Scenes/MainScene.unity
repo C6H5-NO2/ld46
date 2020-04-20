@@ -131,7 +131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &169416792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16b423c6b446814fa9a09b846dc3222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 2375682886733495210, guid: f61387b9eb07ea84e9ea147339d25a76,
+    type: 3}
+  enemyMoves: []
 --- !u!1 &353404033
 GameObject:
   m_ObjectHideFlags: 0
