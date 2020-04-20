@@ -11,7 +11,8 @@ public class CatMeow : MonoBehaviour {
         private set { state = value; Debug.Log("Cat meow state: " + state); }
     }
 
-    //public void ResetMeowState() { State = MeowState.NoMeow; }
+    public delegate void MeowAttrackEnemy();
+    public static event MeowAttrackEnemy OnMeowAttrackEnemy;
 
     private CatHunger catHunger;
 
@@ -22,6 +23,7 @@ public class CatMeow : MonoBehaviour {
         }
         else if(Input.GetKeyDown(KeyCode.X)) {
             State = MeowState.MeowAttrackEnemy;
+            OnMeowAttrackEnemy?.Invoke();
             GameState.Instance.EndCatTurn();
         }
         else if(Input.GetKeyDown(KeyCode.C)) {
