@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HumanCtrl : MonoBehaviour, IHasHealth {
-    public Text humanHealthText;
+    private Text humanHealthText;
 
     private int health;
     public int Health {
         get => health;
         private set {
-            health = value;
+            health = value > 0 ? value : 0;
             humanHealthText.text = "Human Health: " + health;
         }
     }
@@ -19,21 +19,19 @@ public class HumanCtrl : MonoBehaviour, IHasHealth {
 
     private Transform catTrans;
     private CatMeow catMeow;
-    private GameState gameState;
-    private GenGrid genGrid;
+    //private GenGrid genGrid;
 
     void Start() {
+        humanHealthText = GameObject.Find("HumanHealthText").GetComponent<Text>();
         health = 10;
+
         var cat = GameObject.FindGameObjectWithTag("Cat");
         catTrans = cat.transform;
         catMeow = cat.GetComponent<CatMeow>();
-        var gameManager = GameObject.FindGameObjectWithTag("GameManager");
-        gameState = gameManager.GetComponent<GameState>();
-        genGrid = gameManager.GetComponent<GenGrid>();
     }
 
     void Update() {
-        if(gameState.Turn == GameState.TurnOf.Human) {
+        if(GameState.Instance.Turn == GameState.TurnOf.Human) {
             var src = new Vector2Int((int)transform.position.x, (int)transform.position.z);
             Vector2Int dst;
             switch(catMeow.State) {
@@ -47,16 +45,17 @@ public class HumanCtrl : MonoBehaviour, IHasHealth {
                 case CatMeow.MeowState.NoMeow:
                 default:
                     // todo: find nearest enemy
-                    dst = new Vector2Int(GenGrid.gridSizeX, GenGrid.gridSizeY);
+                    dst = new Vector2Int(GenGrid.gridSizeX - 1, GenGrid.gridSizeY - 1);
                     break;
             }
 
-            var newPos = FindPath.FindNextGrid(src, dst, genGrid);
+            var nextGrid = FindPath.FindNextGrid(src, dst);
+            var nextPos = new Vector3(nextGrid.x, 0, nextGrid.y);
 
-            transform.position = new Vector3(newPos.x, 0, newPos.y);
             // todo: move with anim 
+            transform.position = nextPos;
 
-            gameState.EndHumanTurn();
+            GameState.Instance.EndHumanTurn();
         }
     }
 }

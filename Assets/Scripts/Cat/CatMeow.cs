@@ -14,39 +14,40 @@ public class CatMeow : MonoBehaviour {
     //public void ResetMeowState() { State = MeowState.NoMeow; }
 
     private CatHunger catHunger;
-    private GameState gameState;
 
     private void HandleMeow() {
         if(Input.GetKeyDown(KeyCode.Z)) {
             State = MeowState.MeowAttrackHuman;
+            GameState.Instance.EndCatTurn();
         }
         else if(Input.GetKeyDown(KeyCode.X)) {
             State = MeowState.MeowAttrackEnemy;
+            GameState.Instance.EndCatTurn();
         }
         else if(Input.GetKeyDown(KeyCode.C)) {
             State = MeowState.Meow3;
+            GameState.Instance.EndCatTurn();
         }
         else if(Input.GetKeyDown(KeyCode.V)) {
             State = MeowState.Meow4;
+            GameState.Instance.EndCatTurn();
         }
     }
 
     private void Start() {
-        catHunger = GetComponent<CatHunger>();
-        gameState = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameState>();
         State = MeowState.NoMeow;
+        catHunger = GetComponent<CatHunger>();
     }
 
     private void Update() {
         if(catHunger.Health > 0) {
-            if(gameState.Turn == GameState.TurnOf.Cat) {
+            if(GameState.Instance.Turn == GameState.TurnOf.Cat) {
                 HandleMeow();
-                gameState.EndCatTurn();
             }
         }
         else {
             State = MeowState.PassOut;
-            gameState.EndCatTurn();
+            GameState.Instance.EndCatTurn();
         }
     }
 }

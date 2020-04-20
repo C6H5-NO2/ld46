@@ -3,12 +3,14 @@ using System.Collections;
 
 public class FindPath {
     // Should've learnt A* before the jam...
-    public static Vector2Int FindNextGrid(Vector2Int src, Vector2Int dst, GenGrid genGrid) {
+    public static Vector2Int FindNextGrid(Vector2Int src, Vector2Int dst) {
         if(src == dst)
             return src;
 
         // this code cant work.
         // whatever...
+
+        GenGrid genGrid = GameManager.Instance.GetComponent<GenGrid>();
 
         var deltas = new Vector2Int[] {
             new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(0, 1), new Vector2Int(0, -1),

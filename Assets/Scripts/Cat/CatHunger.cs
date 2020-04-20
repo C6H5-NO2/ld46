@@ -4,22 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CatHunger : MonoBehaviour, IHasHealth {
-    public Text catHungerText;
-
     public const int fishVal = 2;
+    public int resetVal = 10;
 
     private int health;
-    // This is acturally hunger value.
     public int Health {
         get { return health; }
         private set {
-            health = value;
+            health = value > 0 ? value : 0;
             catHungerText.text = "Cat Hunger: " + health;
         }
     }
 
+    private Text catHungerText;
+
     // reset when entering new level
-    public void ResetHunger(int h) { Health = h; }
+    public void ResetHunger() { Health = resetVal; }
 
     public void ReciveFish() {
         Health += fishVal;
@@ -33,7 +33,8 @@ public class CatHunger : MonoBehaviour, IHasHealth {
 
     public void DoMove() { --Health; }
 
-    void Start() {
-        ResetHunger(10);
+    private void Start() {
+        catHungerText = GameObject.Find("CatHungerText").GetComponent<Text>();
+        ResetHunger();
     }
 }

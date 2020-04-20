@@ -8,6 +8,7 @@ public class EnemyMgr : MonoBehaviour {
     }
 
     void Update() {
-
+        // todo: testcode
+        GameState.Instance.EndEnemyTurn();
     }
 }

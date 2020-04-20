@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CatMove : MonoBehaviour {
-    public GenGrid genGrid;
-
+    private GenGrid genGrid;
     private CatHunger catHunger;
     private CatMeow catMeow;
-    private GameState gameState;
 
     private void Start() {
+        genGrid = GameManager.Instance.GetComponent<GenGrid>();
         catHunger = GetComponent<CatHunger>();
         catMeow = GetComponent<CatMeow>();
-        gameState = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameState>();
     }
 
     private void HandleMove() {
@@ -36,7 +34,7 @@ public class CatMove : MonoBehaviour {
     }
 
     private void Update() {
-        if(catHunger.Health > 0 && gameState.Turn == GameState.TurnOf.Cat)
+        if(catHunger.Health > 0 && GameState.Instance.Turn == GameState.TurnOf.Cat)
             HandleMove();
     }
 }

@@ -2,10 +2,12 @@
 using System.Collections;
 
 public class GameState : MonoBehaviour {
+    public static GameState Instance = null; // only set this by GameManager
+
     public enum TurnOf { Cat, Human, Enemy, GameOver, EndGame, GameInit };
 
-    private TurnOf turn;
-    public TurnOf Turn { get => turn; private set => turn = value; }
+    private TurnOf turn = TurnOf.Cat;
+    public TurnOf Turn { get => turn; private set { turn = value; Debug.Log("Turn of: " + turn); } }
 
     public void EndCatTurn() {
         if(Turn != TurnOf.Cat)
@@ -19,10 +21,13 @@ public class GameState : MonoBehaviour {
         Turn = TurnOf.Enemy;
     }
 
-    // this should be done by Enemy
     public void EndEnemyTurn() {
         if(Turn != TurnOf.Enemy)
             return;
+        Turn = TurnOf.Cat;
+    }
+
+    public void GameRestart() {
         Turn = TurnOf.Cat;
     }
 
@@ -30,15 +35,5 @@ public class GameState : MonoBehaviour {
         Turn = TurnOf.GameOver;
         Debug.Log("Game Over");
         // todo
-    }
-
-    private void Start() {
-        turn = TurnOf.Cat;
-    }
-
-    private void Update() {
-        // testcode
-        if(Input.GetKeyDown(KeyCode.Space))
-            EndCatTurn();
     }
 }
